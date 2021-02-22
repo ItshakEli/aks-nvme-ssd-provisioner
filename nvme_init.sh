@@ -21,19 +21,19 @@ then
 fi
 
 echo "creating physical volumes"
-sudo pvcreate ${SSD_NVME_DEVICE_LIST[@]}
-sudo pvscan
+pvcreate ${SSD_NVME_DEVICE_LIST[@]}
+#pvscan
 
 echo "creating vg $LOGICAL_VOLUME_GROUP"
-sudo vgcreate $LOGICAL_VOLUME_GROUP ${SSD_NVME_DEVICE_LIST[@]}
-sudo vgdisplay
+vgcreate $LOGICAL_VOLUME_GROUP ${SSD_NVME_DEVICE_LIST[@]}
+#vgdisplay
 
 let VG_PERCENT=100/$LOGICAL_VOLUME_COUNT
 
 for i in $( seq 1 $LOGICAL_VOLUME_COUNT )
 do
     echo "creating logical volumes $LOGICAL_VOLUME$i"
-    sudo lvcreate -l $VG_PERCENT%VG -n $LOGICAL_VOLUME$i $LOGICAL_VOLUME_GROUP
+    lvcreate -l $VG_PERCENT%VG -n $LOGICAL_VOLUME$i $LOGICAL_VOLUME_GROUP
     echo "creating ext4 file system"
     mkfs.ext4 /dev/$LOGICAL_VOLUME_GROUP/$LOGICAL_VOLUME$i
 done
