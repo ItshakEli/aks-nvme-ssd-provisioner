@@ -21,7 +21,7 @@ then
 fi
 
 echo "creating physical volumes"
-pvcreate ${SSD_NVME_DEVICE_LIST[@]}
+pvcreate -f ${SSD_NVME_DEVICE_LIST[@]}
 #pvscan
 
 echo "creating vg $LOGICAL_VOLUME_GROUP"
